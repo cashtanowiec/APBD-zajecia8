@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Tutorial8.Services;
 
 namespace Tutorial8.Controllers
@@ -15,21 +16,15 @@ namespace Tutorial8.Controllers
             _tripsService = tripsService;
         }
 
+        
+        // Zad. 1
         [HttpGet]
         public async Task<IActionResult> GetTrips()
         {
             var trips = await _tripsService.GetTrips();
+            if (trips.IsNullOrEmpty()) return NotFound();
             return Ok(trips);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetTrip(int id)
-        {
-            // if( await DoesTripExist(id)){
-            //  return NotFound();
-            // }
-            // var trip = ... GetTrip(id);
-            return Ok();
-        }
     }
 }
